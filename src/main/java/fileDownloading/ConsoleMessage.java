@@ -17,7 +17,7 @@ public class ConsoleMessage extends TimerTask {
     public void run() {
 
         if (prg <= 100) {
-            logger.info("Service is running... Service No : " + svcNo + " Progress : " + prg + "% DO NOT CLOSE THE TERMINAL.");
+            logger.info("Service is running... Service No : " + svcNo + " Progress : " + prg + "% Do not close the terminal");
         } else {
             prg = 0;
             svcNo += 1;
