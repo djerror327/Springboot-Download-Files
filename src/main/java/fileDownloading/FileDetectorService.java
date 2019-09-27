@@ -25,10 +25,15 @@ class FileDetectorService {
     @Autowired
     Environment env;
 
-    List<String> getAllFileNames() throws IOException {
+    List<String> getAllFileNames(String name) throws IOException {
         logger.info("Detecting file path!");
         logger.info("Copping files from  : " + env.getProperty("app.downloadPath"));
-        Stream<Path> walk = Files.walk(Paths.get(Objects.requireNonNull(env.getProperty("app.downloadPath"))));
+        String downloaddPath = env.getProperty("app.downloadPath");
+
+        if (downloaddPath != null) {
+            downloaddPath = downloaddPath.replace("\\", "/");
+        }
+        Stream<Path> walk = Files.walk(Paths.get(downloaddPath + "/" + name));
         return walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
     }
 }
