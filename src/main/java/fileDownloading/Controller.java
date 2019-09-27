@@ -32,7 +32,7 @@ public class Controller {
         logger.debug("Home page successful.");
         return "<h1 style='text-align:center;margin-top: 20%;'>File downloader Bot is online</h1>";
     }
-    
+
     @RequestMapping("/{name}")
     public String downloadByName(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
         logger.info("Download is started.");
