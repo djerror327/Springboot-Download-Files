@@ -20,6 +20,6 @@ public class App {
         logger.info("App started");
         logger.info("Service providing stated");
         Timer timer = new Timer();
-        timer.schedule(new ConsoleMessage(), 0, 5000);
+        timer.schedule(new ConsoleMessage(), 0, 2000);
     }
 }
