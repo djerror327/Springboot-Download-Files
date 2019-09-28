@@ -18,7 +18,6 @@ public class App {
         SpringApplication.run(App.class, args);
 
         logger.info("App started");
-        logger.info("Service providing stated");
         Timer timer = new Timer();
         timer.schedule(new ConsoleMessage(), 0, 2000);
     }

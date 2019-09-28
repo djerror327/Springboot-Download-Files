@@ -1,10 +1,12 @@
 package fileDownloading;
 
 import org.apache.log4j.Logger;
+import org.apache.tomcat.util.http.fileupload.util.Streams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,14 +28,17 @@ class FileDetectorService {
     Environment env;
 
     List<String> getAllFileNames(String name) throws IOException {
-        logger.info("Detecting file path!");
         logger.info("Copping files from  : " + env.getProperty("app.downloadPath"));
         String downloaddPath = env.getProperty("app.downloadPath");
-
         if (downloaddPath != null) {
             downloaddPath = downloaddPath.replace("\\", "/");
         }
-        Stream<Path> walk = Files.walk(Paths.get(downloaddPath + "/" + name));
-        return walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
+        File file = new File(downloaddPath + "/" + name);
+        if (file.isDirectory()) {
+            Stream<Path> walk = Files.walk(Paths.get(downloaddPath + "/" + name));
+            return walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList());
+        } else {
+            return null;
+        }
     }
 }

@@ -35,13 +35,13 @@ public class Controller {
 
     @RequestMapping("/{name}")
     public String downloadByName(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
-        logger.info("Download is started.");
-
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + name + "Videos.zip");
-        response.setStatus(HttpServletResponse.SC_OK);
+        logger.info("Download started.");
         List<String> fileNames = fileDetectorService.getAllFileNames(name);
         if (fileNames != null) {
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=" + name + "Videos.zip");
+            response.setStatus(HttpServletResponse.SC_OK);
+
             try (ZipOutputStream zippedOut = new ZipOutputStream(response.getOutputStream())) {
                 logger.info(fileNames.size() + " files found.");
                 logger.info("Creating a zip file out of " + fileNames.size() + " files.");
@@ -51,7 +51,6 @@ public class Controller {
                     // Configure the zip entry, the properties of the file
                     e.setSize(resource.contentLength());
                     e.setTime(System.currentTimeMillis());
-                    // etc.
                     zippedOut.putNextEntry(e);
                     // And the content of the resource:
                     StreamUtils.copy(resource.getInputStream(), zippedOut);
@@ -62,7 +61,7 @@ public class Controller {
                 return "File downloader Bot is downloading " + name;
             }
         } else {
-            return "File downloader Bot does not found given name " + name;
+            return "<h1 style='text-align:center;margin-top: 20%;'>File downloader Bot does not found given name " + name + "</h1>";
         }
     }
 }
